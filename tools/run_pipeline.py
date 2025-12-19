@@ -26,36 +26,36 @@ def store_messages(messages: list[dict]) -> None:
     Enregistre les messages dans SQLite.
     """
     from datetime import datetime, timezone
+    batch_size = 10
     with get_session() as session:
-        for msg in messages:
-            # Assure que event_timestamp est un datetime timezone-aware ou None
-            event_timestamp = msg.get("date")
-            if event_timestamp is not None:
-                if isinstance(event_timestamp, str):
-                    try:
-                        # Essaye de parser l'ISO format
-                        event_timestamp = datetime.fromisoformat(event_timestamp)
-                    except Exception:
-                        event_timestamp = None
-                if isinstance(event_timestamp, datetime):
-                    if event_timestamp.tzinfo is None:
-                        # On force UTC si pas de tzinfo
-                        event_timestamp = event_timestamp.replace(tzinfo=timezone.utc)
-            m = Message(
-                source=msg.get("source") or "unknown",
-                channel=msg.get("channel"),
-                raw_text=msg.get("text", ""),
-                translated_text=msg.get("translated_text"),
-                country=msg.get("country"),
-                region=msg.get("region"),
-                location=msg.get("location"),
-                title=msg.get("title"),
-                event_timestamp=event_timestamp,
-                telegram_message_id=msg.get("telegram_message_id"),
-                orientation=msg.get("orientation"),
-            )
-            session.add(m)
-        session.commit()
+        for i in range(0, len(messages), batch_size):
+            batch = messages[i:i+batch_size]
+            for msg in batch:
+                event_timestamp = msg.get("date")
+                if event_timestamp is not None:
+                    if isinstance(event_timestamp, str):
+                        try:
+                            event_timestamp = datetime.fromisoformat(event_timestamp)
+                        except Exception:
+                            event_timestamp = None
+                    if isinstance(event_timestamp, datetime):
+                        if event_timestamp.tzinfo is None:
+                            event_timestamp = event_timestamp.replace(tzinfo=timezone.utc)
+                m = Message(
+                    source=msg.get("source") or "unknown",
+                    channel=msg.get("channel"),
+                    raw_text=msg.get("text", ""),
+                    translated_text=msg.get("translated_text"),
+                    country=msg.get("country"),
+                    region=msg.get("region"),
+                    location=msg.get("location"),
+                    title=msg.get("title"),
+                    event_timestamp=event_timestamp,
+                    telegram_message_id=msg.get("telegram_message_id"),
+                    orientation=msg.get("orientation"),
+                )
+                session.add(m)
+            session.commit()
     # Log supprimé : nombre de messages stockés
 
 
@@ -81,7 +81,7 @@ def filter_existing_messages(messages: list[dict]) -> list[dict]:
     return filtered
 
 
-def delete_old_messages(days: int = 10) -> None:
+def delete_old_messages(days: int = 7) -> None:
     """
     Supprime les messages dont l'event_timestamp est plus vieux que X jours.
     """
