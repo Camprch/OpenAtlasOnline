@@ -28,18 +28,13 @@ jobs:
           TELEGRAM_API_HASH: ${{ secrets.TELEGRAM_API_HASH }}
           TELEGRAM_SESSION: ${{ secrets.TELEGRAM_SESSION }}
           TG_SESSION: ${{ secrets.TG_SESSION }}
-
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-          run: |
-              if [ -z "$DB_URL" ]; then echo "DB_URL manquant"; else echo "DB_URL OK"; fi
-              if [ -z "$OPENAI_API_KEY" ]; then echo "OPENAI_API_KEY manquant"; else echo "OPENAI_API_KEY OK"; fi
-
           OPENAI_MODEL: ${{ secrets.OPENAI_MODEL }}
-
           DB_URL: ${{ secrets.DB_URL }}
-
           SOURCES_TELEGRAM: ${{ secrets.SOURCES_TELEGRAM }}
           MAX_MESSAGES_PER_CHANNEL: ${{ secrets.MAX_MESSAGES_PER_CHANNEL }}
           BATCH_SIZE: ${{ secrets.BATCH_SIZE }}
         run: |
+          if [ -z "$DB_URL" ]; then echo "DB_URL manquant"; else echo "DB_URL OK"; fi
+          if [ -z "$OPENAI_API_KEY" ]; then echo "OPENAI_API_KEY manquant"; else echo "OPENAI_API_KEY OK"; fi
           python tools/run_pipeline.py
