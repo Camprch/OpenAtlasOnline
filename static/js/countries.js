@@ -2,7 +2,7 @@
 // Gestion des données pays et des pastilles
 
 
-import { map, markersByCountry, clearMarkers, markerStyle, IS_MOBILE } from './map.js';
+import { map, markersByCountry, flagMarkersByCountry, clearMarkers, markerStyle, IS_MOBILE } from './map.js';
 import { openSidePanel } from './events.js';
 import { store } from './store.js';
 
@@ -107,6 +107,7 @@ export async function loadActiveCountries(currentGlobalDate = store.currentGloba
         marker.addTo(map);
         flagMarker.addTo(map);
         markersByCountry[key] = marker;
+        flagMarkersByCountry[key] = flagMarker;
     });
     if (alert) {
         let alertMsg = "";

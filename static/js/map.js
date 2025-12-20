@@ -3,6 +3,7 @@
 
 export let map;
 export let markersByCountry = {};
+export let flagMarkersByCountry = {};
 
 const IS_MOBILE = window.matchMedia("(max-width: 768px)").matches;
 
@@ -25,7 +26,9 @@ export function initMap() {
 
 export function clearMarkers() {
     Object.values(markersByCountry).forEach((m) => map.removeLayer(m));
+    Object.values(flagMarkersByCountry).forEach((fm) => map.removeLayer(fm));
     markersByCountry = {};
+    flagMarkersByCountry = {};
 }
 
 export function markerStyle(count) {
