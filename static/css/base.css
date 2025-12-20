@@ -1,0 +1,95 @@
+#timeline-container-global select {
+    padding: 6px 14px !important;
+    background: #1a1f24 !important;
+    border: 1px solid #444 !important;
+    color: #eee !important;
+    border-radius: 999px !important;
+    font-size: 13px !important;
+    outline: none !important;
+    cursor: pointer !important;
+    transition: background 0.15s, border-color 0.15s, transform 0.1s, box-shadow 0.15s;
+    min-width: 120px !important;
+}
+#timeline-container-global select:hover {
+    background: #222832 !important;
+    border-color: #666 !important;
+    transform: translateY(-1px) !important;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.5) !important;
+}
+
+#timeline-container-panel select {
+    padding: 6px 14px !important;
+    background: #1a1f24 !important;
+    border: 1px solid #444 !important;
+    color: #eee !important;
+    border-radius: 999px !important;
+    font-size: 13px !important;
+    outline: none !important;
+    cursor: pointer !important;
+    transition: background 0.15s, border-color 0.15s, transform 0.1s, box-shadow 0.15s;
+    min-width: 120px !important;
+}
+#timeline-container-panel select:hover {
+    background: #222832 !important;
+    border-color: #666 !important;
+    transform: translateY(-1px) !important;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.5) !important;
+}
+/* base.css : styles généraux, header, boutons, couleurs de fond, etc. */
+
+body {
+    margin: 0;
+    background: #000000;
+    color: #ddd;
+    font-family: Arial, sans-serif;
+}
+
+header {
+    padding: 10px 20px;
+    background: #11161c;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 32px;
+    position: relative;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 26px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.logo-icon {
+    font-size: 24px;
+}
+
+button,
+a,
+.leaflet-control a {
+    transition: transform 0.1s ease,
+                box-shadow 0.15s ease,
+                filter 0.15s ease;
+}
+
+button:hover,
+a:hover,
+.leaflet-control a:hover {
+    transform: translateY(-1px);
+    filter: brightness(1.05);
+}
+
+body.no-scroll {
+    overflow: hidden !important;
+    position: fixed;
+    width: 100vw;
+}
+
+#dashboard-alert {
+    background: #332200;
+    color: #facc15;
+    padding: 5px 10px;
+    display: none;
+}

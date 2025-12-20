@@ -1,0 +1,95 @@
+/* responsive.css : tous les media queries pour mobile/tablette */
+
+@media (max-width: 768px) {
+    html,
+    body {
+        overflow-x: hidden;
+    }
+    body {
+        font-size: 14px;
+    }
+    header {
+        flex-direction: row;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 12px;
+    }
+    header h1 {
+        font-size: 20px;
+    }
+    #timeline-container-global {
+        width: auto;
+        box-sizing: border-box;
+        margin-bottom: 4px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        position: static;
+    }
+    #timeline-container-global select {
+        width: auto;
+        min-width: 90px;
+        max-width: 100%;
+        font-size: 14px;
+        padding: 8px 10px;
+        border-radius: 8px;
+        background-color: #111827;
+        color: #f9fafb;
+        border: 1px solid #374151;
+        appearance: none;
+    }
+    #timeline-container-panel {
+        width: auto;
+        box-sizing: border-box;
+        margin-bottom: 0;
+        margin-top: 0;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        position: static;
+    }
+    #timeline-container-panel select {
+        width: auto;
+        min-width: 90px;
+        max-width: 100%;
+        font-size: 14px;
+        padding: 8px 10px;
+        border-radius: 8px;
+        background-color: #111827;
+        color: #f9fafb;
+        border: 1px solid #374151;
+        appearance: none;
+    }
+    #sidepanel {
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        left: 0;
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
+        transform: translateX(100%);
+    }
+    #sidepanel.visible {
+        transform: translateX(0);
+    }
+    #map {
+        height: calc(100vh - 110px);
+    }
+    .leaflet-bottom.leaflet-right {
+        right: 10px;
+    }
+    #sidepanel-header-row {
+        flex-direction: row !important;
+        align-items: center !important;
+        gap: 12px;
+    }
+    #timeline-container-panel select {
+        appearance: none;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        background-image: none !important;
+        padding-right: 10px;
+    }
+}
