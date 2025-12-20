@@ -69,10 +69,21 @@ export async function loadActiveCountries(currentGlobalDate = store.currentGloba
             interactive: true,
             pane: 'markerPane',
         });
+        // Affiche la pastille colorée (circleMarker)
         const marker = L.circleMarker([lat, lon], style);
+        // Ajoute le drapeau au centre avec un marker HTML transparent superposé
+        const flag = key.split(' ')[0];
+        const flagMarker = L.marker([lat, lon], {
+            icon: L.divIcon({
+                className: 'country-flag-marker',
+                html: `<div style="display:flex;align-items:center;justify-content:center;width:${style.radius*2}px;height:${style.radius*2}px;font-size:${style.radius*1.2}px;pointer-events:none;">${flag}</div>`,
+                iconSize: [style.radius*2, style.radius*2],
+                iconAnchor: [style.radius, style.radius],
+            }),
+            interactive: false,
+            pane: 'markerPane',
+        });
         if (!IS_MOBILE) {
-            // Affiche le drapeau au-dessus du nom, sans le nombre d'événements
-            const flag = key.split(' ')[0];
             const countryName = key.substring(flag.length + 1);
             marker.bindPopup(`
                 <div style="font-size:2em; line-height:1; margin-bottom:2px;">${flag}</div>
@@ -94,6 +105,7 @@ export async function loadActiveCountries(currentGlobalDate = store.currentGloba
         interactiveCircle.on("click", () => openSidePanel(key));
         interactiveCircle.addTo(map);
         marker.addTo(map);
+        flagMarker.addTo(map);
         markersByCountry[key] = marker;
     });
     if (alert) {
