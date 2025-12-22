@@ -2,6 +2,7 @@
   "coordinates": {
     "🇦🇫 Afghanistan": [33.93911, 67.709953],
     "🇿🇦 Afrique du Sud": [-30.559482, 22.937506],
+    "🌍 Afrique": [8.7832, 34.5085],
     "🇦🇱 Albanie": [41.153332, 20.168331],
     "🇩🇿 Algérie": [28.033886, 1.659626],
     "🇩🇪 Allemagne": [51.165691, 10.451526],
@@ -244,6 +245,7 @@
     "afghanistan": "🇦🇫 Afghanistan",
 
     "afrique du sud": "🇿🇦 Afrique du Sud",
+    "afrique": "🌍 Afrique",
     "south africa": "🇿🇦 Afrique du Sud",
     "rsa": "🇿🇦 Afrique du Sud",
 
