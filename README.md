@@ -3,15 +3,15 @@
 ![carte principale](static/img/screen1.png)
 ![panneau latéral](static/img/screen2.png)
 
-Ce projet est une application FastAPI permettant de collecter, traduire, enrichir et afficher des événements provenant de sources Telegram sur un planisphère interactif.
+Ce projet est une application FastAPI permettant de collecter, traduire, enrichir et afficher des événements provenant de sources Telegram sur un planisphère dynamique.
 
 ---
 
 ## 🎯 Fonctionnalités principales
 
 - **Collecte Telegram** : Récupère les messages des canaux Telegram sur 24h.
-- **Traduction & enrichissement** : Utilise l'API OpenAI pour traduire et extraire des informations clés (pays, région, titre, etc.).
 - **Déduplication** : Nettoie les doublons pour une base de données propre.
+- **Traduction & enrichissement** : Utilise l'API OpenAI pour traduire et extraire des informations clés (pays, région, titre, etc.).
 - **Stockage** : Sauvegarde dans une base SQLite via SQLModel.
 - **API REST** : Expose les données pour le dashboard (dates, pays, événements).
 - **Dashboard web** : Visualisation interactive des événements sur une carte (Leaflet.js).
