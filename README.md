@@ -1,12 +1,10 @@
 # 🛰️ OpenAtlas Online
 
-![carte principale](static/img/screen1.png)
-![panneau latéral](static/img/screen2.png)
-
----
-
 Application FastAPI qui collecte des événements depuis des canaux Telegram, les traduit, les enrichit (géolocalisation / métadonnées), puis les affiche sur un planisphère interactif.
 Le pipeline est entièrement automatisé via GitHub Actions (secrets gérés via GitHub Secrets) et le projet est conçu pour être déployé facilement sur un hébergeur compatible.
+
+![carte principale](static/img/screen1.png)
+![panneau latéral](static/img/screen2.png)
 
 ---
 
