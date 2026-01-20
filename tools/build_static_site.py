@@ -8,7 +8,6 @@ from pathlib import Path
 import shutil
 import sys
 from typing import Iterable, Optional
-from urllib.parse import quote
 
 from dotenv import load_dotenv
 
@@ -205,7 +204,8 @@ def _build_active_countries(messages: Iterable[Message]) -> dict:
 
 
 def _encode_country_filename(country: str) -> str:
-    return f"{quote(country, safe='')}.json"
+    # Keep UTF-8 filenames so web servers can resolve decoded URLs.
+    return f"{country.replace('/', '-')}.json"
 
 
 def build_site() -> None:
