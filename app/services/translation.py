@@ -26,7 +26,7 @@ def _translate_subbatch(texts: List[str]) -> List[str]:
         '{"index": <int>, "translation": "<texte traduit>"}\n'
         "Un seul objet JSON par ligne, même ordre que les index.\n"
         "Pas de texte hors JSON, pas de commentaire.\n"
-        "IMPORTANT : Traduis chaque message en français naturel, même si le texte original est en anglais ou dans une autre langue.\n"
+        "IMPORTANT : Traduis chaque message en français naturel, même si le texte original est dans une autre langue.\n"
         "Si un message contient des noms propres, hashtags, expressions spécifiques ou éléments non traduisibles, conserve-les tels quels et mets-les entre guillemets dans la traduction française.\n"
         "Messages :\n"
     )
