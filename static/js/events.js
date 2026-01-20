@@ -159,7 +159,11 @@ export async function loadEvents(country) {
         resp = await fetch(url);
     }
     if (!resp.ok) {
-        eventsContainer.textContent = "Erreur de chargement.";
+        if (resp.status === 404) {
+            eventsContainer.textContent = "Aucun événement pour cette date.";
+        } else {
+            eventsContainer.textContent = "Erreur de chargement.";
+        }
         return;
     }
     data = await resp.json();
