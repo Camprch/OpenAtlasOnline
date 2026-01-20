@@ -38,3 +38,35 @@ jobs:
           if [ -z "$DB_URL" ]; then echo "DB_URL manquant"; else echo "DB_URL OK"; fi
           if [ -z "$OPENAI_API_KEY" ]; then echo "OPENAI_API_KEY manquant"; else echo "OPENAI_API_KEY OK"; fi
           python tools/run_pipeline.py
+
+      - name: Build static site
+        env:
+          DB_URL: ${{ secrets.DB_URL }}
+        run: |
+          python tools/build_static_site.py
+
+      - name: Create deploy zip
+        run: |
+          python - <<'PY'
+          import shutil
+          from pathlib import Path
+          src = Path("site")
+          if not src.exists():
+            raise SystemExit("site/ not found; build failed")
+          shutil.make_archive("/tmp/site", "zip", root_dir=str(src))
+          print("Wrote /tmp/site.zip")
+          PY
+
+      - name: Deploy to Netlify
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+        run: |
+          if [ -z "$NETLIFY_AUTH_TOKEN" ] || [ -z "$NETLIFY_SITE_ID" ]; then
+            echo "Secrets Netlify manquants"
+            exit 1
+          fi
+          curl -sS -H "Authorization: Bearer $NETLIFY_AUTH_TOKEN" \
+            -H "Content-Type: application/zip" \
+            --data-binary "@/tmp/site.zip" \
+            "https://api.netlify.com/api/v1/sites/$NETLIFY_SITE_ID/deploys"

@@ -118,7 +118,7 @@ export async function loadLatestEvents(country) {
     const eventsContainer = document.getElementById("events");
     eventsContainer.innerHTML = "Chargement...";
     const resp = await fetch(
-        `/api/countries/${encodeURIComponent(country)}/latest-events`
+        `/static/data/generated/events/ALL/${encodeURIComponent(country)}.json`
     );
     if (!resp.ok) {
         eventsContainer.textContent = "Aucun événement pour ce pays.";
@@ -152,10 +152,10 @@ export async function loadEvents(country) {
     eventsContainer.innerHTML = "Chargement...";
     let url, resp, data;
     if (store.currentPanelDate === "ALL") {
-        url = `/api/countries/${encodeURIComponent(country)}/all-events`;
+        url = `/static/data/generated/events/ALL/${encodeURIComponent(country)}.json`;
         resp = await fetch(url);
     } else {
-        url = `/api/countries/${encodeURIComponent(country)}/events?date=${store.currentPanelDate}`;
+        url = `/static/data/generated/events/${store.currentPanelDate}/${encodeURIComponent(country)}.json`;
         resp = await fetch(url);
     }
     if (!resp.ok) {

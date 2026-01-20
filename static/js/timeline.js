@@ -9,7 +9,7 @@ import { store } from './store.js';
 export let timelineDates = [];
 
 export async function loadTimeline() {
-    const resp = await fetch("/api/dates");
+    const resp = await fetch("/static/data/generated/dates.json");
     const data = await resp.json();
     timelineDates = data.dates || [];
     const selectGlobal = document.getElementById("timeline-global");

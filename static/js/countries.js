@@ -19,9 +19,9 @@ export async function loadCountryData() {
 export async function loadActiveCountries(currentGlobalDate = store.currentGlobalDate) {
     console.log("[DEBUG] Clés countryCoords:", Object.keys(countryCoords));
     console.log("[DEBUG] Aliases:", countryAliases);
-    let url = "/api/countries/active";
+    let url = "/static/data/generated/active/ALL.json";
     if (currentGlobalDate && currentGlobalDate !== "ALL") {
-        url += `?date=${encodeURIComponent(currentGlobalDate)}`;
+        url = `/static/data/generated/active/${encodeURIComponent(currentGlobalDate)}.json`;
     }
     const resp = await fetch(url);
     if (!resp.ok) {
