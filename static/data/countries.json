@@ -96,6 +96,7 @@
     "🇭🇺 Hongrie": [47.162494, 19.503304],
     "🇭🇰 Hong Kong": [22.319303, 114.169361],
 
+    "🇮🇴 Îles Chagos": [-6.0, 71.5],
     "🇲🇭 Îles Marshall": [7.131474, 171.184478],
     "🇸🇧 Îles Salomon": [-9.64571, 160.156194],
     "🇰🇾 Îles Caïmans": [19.3133, -81.2546],
@@ -526,6 +527,9 @@
 
     "hong kong": "🇭🇰 Hong Kong",
     "hongkong": "🇭🇰 Hong Kong",
+    
+    "ile chagos": "🇮🇴 Îles Chagos",
+    "îles chagos": "🇮🇴 Îles Chagos",
 
     "iles marshall": "🇲🇭 Îles Marshall",
     "îles marshall": "🇲🇭 Îles Marshall",
@@ -654,6 +658,7 @@
 
     "mexique": "🇲🇽 Mexique",
     "mexico": "🇲🇽 Mexique",
+    "golfe du mexique": "🇲🇽 Mexique",
 
     "moldavie": "🇲🇩 Moldavie",
     "moldova": "🇲🇩 Moldavie",
