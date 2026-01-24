@@ -1,5 +1,4 @@
-/* events.css : styles des événements, listes, titres, meta, liens */
-
+/* En-tete d'accordeon par zone */
 .zone-header {
     font-size: 14px;
     font-weight: 600;
@@ -15,17 +14,20 @@
                 box-shadow 0.15s ease;
 }
 
+/* Feedback hover sur l'en-tete de zone */
 .zone-header:hover {
     background: #1b222c;
     transform: translateY(-1px);
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
 }
 
+/* Ligne d'evenement */
 .event {
     padding: 8px 0;
     border-bottom: 1px solid #333;
 }
 
+/* Titre d'evenement cliquable */
 .evt-title {
     font-weight: bold;
     color: #ddd;
@@ -36,11 +38,13 @@
     padding: 2px 4px;
 }
 
+/* Hover sur le titre */
 .evt-title:hover {
     background: #23272f;
     color: #fff;
 }
 
+/* Corps de texte d'evenement (repliable) */
 .evt-text {
     color: #ccc;
     margin-bottom: 4px;
@@ -48,6 +52,7 @@
     display: none;
 }
 
+/* Ligne de metadonnees */
 .evt-meta {
     font-size: 11px;
     color: #777;
@@ -56,16 +61,19 @@
     gap: 6px;
 }
 
+/* Libelle de source */
 .evt-meta .evt-source {
     color: #aaa;
     font-weight: normal;
 }
 
+/* Style des liens dans les metadonnees */
 .evt-meta .evt-link a {
     color: #58a6ff;
     text-decoration: underline;
 }
 
+/* Effet hover sur les liens */
 .evt-link a {
     display: inline-block;
     transition: transform 0.1s ease,
@@ -73,18 +81,21 @@
                 text-decoration-color 0.15s ease;
 }
 
+/* Feedback hover pour les liens */
 .evt-link a:hover {
     transform: translateY(-1px);
     filter: brightness(1.2);
     text-decoration: underline;
 }
 
+/* Style des liens source */
 .evt-source a {
     transition: transform 0.1s ease,
                 filter 0.15s ease,
                 box-shadow 0.15s ease;
 }
 
+/* Feedback hover pour les liens source */
 .evt-source a:hover {
     transform: translateY(-1px);
     filter: brightness(1.15);

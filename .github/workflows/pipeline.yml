@@ -1,53 +1,69 @@
+# Workflow GitHub Actions.
 name: Daily pipeline
 
+# Evenements qui declenchent le workflow.
 on:
   schedule:
     - cron: "0 5 * * *"   # tous les jours à 05h00 UTC
   workflow_dispatch:       # permet de lancer à la main
 
+# Definition du job principal.
 jobs:
   run-pipeline:
+    # Runner GitHub heberge par Ubuntu.
     runs-on: ubuntu-latest
-
     steps:
+      # Recupere le code du depot.
       - name: Checkout repo
         uses: actions/checkout@v4
 
+      # Installe la version de Python requise.
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.11"
 
+      # Installe les dependances Python du projet.
       - name: Install dependencies
         run: |
           pip install -r requirements.txt
 
+      # Execute la pipeline principale avec variables d'environnement.
       - name: Run pipeline
         env:
+          # Secrets Telegram.
           TELEGRAM_API_ID: ${{ secrets.TELEGRAM_API_ID }}
           TELEGRAM_API_HASH: ${{ secrets.TELEGRAM_API_HASH }}
           TELEGRAM_SESSION: ${{ secrets.TELEGRAM_SESSION }}
           TG_SESSION: ${{ secrets.TG_SESSION }}
+          # Secrets OpenAI.
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           OPENAI_MODEL: ${{ secrets.OPENAI_MODEL }}
+          # Secrets base de donnees et parametres de collecte.
           DB_URL: ${{ secrets.DB_URL }}
           SOURCES_TELEGRAM: ${{ secrets.SOURCES_TELEGRAM }}
           MAX_MESSAGES_PER_CHANNEL: ${{ secrets.MAX_MESSAGES_PER_CHANNEL }}
           BATCH_SIZE: ${{ secrets.BATCH_SIZE }}
         run: |
+          # Verification minimale des secrets critiques avant execution.
           if [ -z "$DB_URL" ]; then echo "DB_URL manquant"; else echo "DB_URL OK"; fi
           if [ -z "$OPENAI_API_KEY" ]; then echo "OPENAI_API_KEY manquant"; else echo "OPENAI_API_KEY OK"; fi
+          # Lance la pipeline applicative.
           python tools/run_pipeline.py
 
+      # Construit le site statique a partir de la base.
       - name: Build static site
         env:
+          # Connexion DB requise pour generer le site.
           DB_URL: ${{ secrets.DB_URL }}
         run: |
           python tools/build_static_site.py
 
+      # Prepare une archive ZIP pour le deploiement.
       - name: Create deploy zip
         run: |
           python - <<'PY'
+          # Archive le dossier "site" en /tmp/site.zip.
           import shutil
           from pathlib import Path
           src = Path("site")
@@ -57,15 +73,19 @@ jobs:
           print("Wrote /tmp/site.zip")
           PY
 
+      # Deploie le ZIP vers Netlify via l'API.
       - name: Deploy to Netlify
         env:
+          # Secrets Netlify pour autoriser le deploiement.
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
         run: |
+          # Verifie la presence des secrets avant envoi.
           if [ -z "$NETLIFY_AUTH_TOKEN" ] || [ -z "$NETLIFY_SITE_ID" ]; then
             echo "Secrets Netlify manquants"
             exit 1
           fi
+          # Upload du ZIP vers l'endpoint Netlify.
           curl -sS -H "Authorization: Bearer $NETLIFY_AUTH_TOKEN" \
             -H "Content-Type: application/zip" \
             --data-binary "@/tmp/site.zip" \

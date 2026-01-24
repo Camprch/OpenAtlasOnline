@@ -1,5 +1,4 @@
-# tools/init_telegram_string.py
-
+# Recuperer une string session telegram.
 from pathlib import Path
 import sys
 import asyncio
@@ -14,10 +13,12 @@ if str(ROOT_DIR) not in sys.path:
 
 from app.config import get_settings
 
+# Charge la configuration Telegram.
 settings = get_settings()
 
 
 async def main():
+    # Demarre un client Telegram et genere une StringSession.
     print("\n[init_telegram_string] Initialisation de la session Telegram…")
 
     client = TelegramClient(
@@ -29,6 +30,7 @@ async def main():
     # Démarre la session → va te demander ton téléphone + code une seule fois
     await client.start()
 
+    # Export de la session sous forme de chaine.
     session_str = client.session.save()
 
     print("\n🎉 Ta TG_SESSION (à mettre dans GitHub Secrets) :\n")

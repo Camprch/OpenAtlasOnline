@@ -1,12 +1,14 @@
-// map.js
 // Gestion de la carte Leaflet et des marqueurs
 
+// Carte Leaflet et index des marqueurs par pays.
 export let map;
 export let markersByCountry = {};
 export let flagMarkersByCountry = {};
 
+// Detecte l'affichage mobile.
 const IS_MOBILE = window.matchMedia("(max-width: 768px)").matches;
 
+// Initialise la carte et la couche de tuiles.
 export function initMap() {
     map = L.map("map", {
         worldCopyJump: true,
@@ -24,6 +26,7 @@ export function initMap() {
     ).addTo(map);
 }
 
+// Supprime tous les marqueurs de pays.
 export function clearMarkers() {
     Object.values(markersByCountry).forEach((m) => map.removeLayer(m));
     Object.values(flagMarkersByCountry).forEach((fm) => map.removeLayer(fm));
@@ -31,6 +34,7 @@ export function clearMarkers() {
     flagMarkersByCountry = {};
 }
 
+// Calcule la taille/couleur d'un marqueur selon le volume d'evenements.
 export function markerStyle(count) {
     const n = Math.max(1, count || 1);
     const minRadius = IS_MOBILE ? 8 : 4;

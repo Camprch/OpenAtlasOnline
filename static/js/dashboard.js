@@ -1,2 +1,2 @@
-// dashboard.js : point d'entrée unique, tout est importé via ES6 modules
+// dashboard.js : point d'entree unique, tout est importe via ES6 modules
 import './main.js';

@@ -1,5 +1,4 @@
-/* panel.css : panneau latéral, backdrop, header du panneau */
-
+/* Conteneur du panneau lateral */
 #sidepanel {
     position: fixed;
     top: 0;
@@ -15,10 +14,12 @@
     flex-direction: column;
 }
 
+/* Affiche le panneau quand visible */
 #sidepanel.visible {
     right: 0;
 }
 
+/* Corps du panneau scrollable */
 #sidepanel-content {
     margin-top: 16px;
     overflow-y: auto;
@@ -27,6 +28,7 @@
     flex: 1;
 }
 
+/* Bouton de fermeture */
 #close-panel {
     background: none;
     color: #ccc;
@@ -39,11 +41,13 @@
     transition: transform 0.1s ease, color 0.15s ease;
 }
 
+/* Feedback hover du bouton fermer */
 #close-panel:hover {
     color: #fff;
     transform: scale(1.1);
 }
 
+/* Backdrop derriere le panneau (desktop) */
 #sidepanel-backdrop {
     position: fixed;
     top: 0;
@@ -55,12 +59,14 @@
     z-index: 900;
 }
 
+/* Affiche le backdrop sur desktop quand ouvert */
 @media (min-width: 769px) {
     #sidepanel.visible ~ #sidepanel-backdrop {
         display: block;
     }
 }
 
+/* Ligne d'entete (titre + select) */
 #sidepanel-header-row {
     display: flex;
     align-items: center;
@@ -69,6 +75,7 @@
     flex-wrap: nowrap;
 }
 
+/* Garde les elements d'entete inline */
 #sidepanel-header-row > h2, #sidepanel-header-row > #timeline-container-panel {
     display: inline-flex;
     width: auto;
@@ -76,10 +83,12 @@
     margin: 0;
 }
 
+/* Evite le retour a la ligne */
 #sidepanel-header-row {
     flex-wrap: nowrap;
 }
 
+/* Titre du pays dans le panneau */
 #panel-country-name {
     margin: 0;
     font-size: 20px;

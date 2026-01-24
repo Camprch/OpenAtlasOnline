@@ -1,14 +1,13 @@
-// countries.js
 // Gestion des données pays et des pastilles
-
-
 import { map, markersByCountry, flagMarkersByCountry, clearMarkers, markerStyle, IS_MOBILE } from './map.js';
 import { openSidePanel } from './events.js';
 import { store } from './store.js';
 
+// Coordonnees et alias charges depuis countries.json.
 export let countryCoords = {};
 export let countryAliases = {};
 
+// Charge les coordonnees et alias des pays.
 export async function loadCountryData() {
     const resp = await fetch("/static/data/countries.json");
     const data = await resp.json();
@@ -16,6 +15,7 @@ export async function loadCountryData() {
     countryAliases = data.aliases || {};
 }
 
+// Charge les pays actifs et affiche les pastilles.
 export async function loadActiveCountries(currentGlobalDate = store.currentGlobalDate) {
     console.log("[DEBUG] Clés countryCoords:", Object.keys(countryCoords));
     console.log("[DEBUG] Aliases:", countryAliases);
@@ -35,6 +35,7 @@ export async function loadActiveCountries(currentGlobalDate = store.currentGloba
     clearMarkers();
     const missing = [];
     const alert = document.getElementById("dashboard-alert");
+    // Ajuste la tolerance de click selon le zoom.
     const getTolerance = () => {
         const zoom = map.getZoom();
         if (zoom >= 5) return 2000;
@@ -46,6 +47,7 @@ export async function loadActiveCountries(currentGlobalDate = store.currentGloba
         let normName = c.country;
         const count = c.events_count;
         let key = normName;
+        // Normalise le pays via aliases si besoin.
         if (!(key in countryCoords)) {
             if (countryAliases[normName] && countryCoords[countryAliases[normName]]) {
                 key = countryAliases[normName];
@@ -60,6 +62,7 @@ export async function loadActiveCountries(currentGlobalDate = store.currentGloba
         }
         const style = markerStyle(count);
         const clickableRadius = style.radius * 2.5;
+        // Cercle invisible pour une zone de clic plus large.
         const interactiveCircle = L.circleMarker([lat, lon], {
             radius: clickableRadius,
             color: 'transparent',
@@ -90,6 +93,7 @@ export async function loadActiveCountries(currentGlobalDate = store.currentGloba
                 <b>${countryName}</b>
             `);
         }
+        // Effets hover et clic vers le panneau lateral.
         interactiveCircle.on("mouseover", function (e) {
             marker.setStyle({ radius: style.radius * 1.15 });
             if (!IS_MOBILE) {
@@ -109,6 +113,7 @@ export async function loadActiveCountries(currentGlobalDate = store.currentGloba
         markersByCountry[key] = marker;
         flagMarkersByCountry[key] = flagMarker;
     });
+    // Affiche un message si des pays sont manquants/ignores.
     if (alert) {
         let alertMsg = "";
         if (missing.length > 0) {

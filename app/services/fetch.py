@@ -1,4 +1,4 @@
-# app/services/fetch.py
+# Collecte des messages.
 from datetime import datetime, timedelta, timezone
 from typing import List, Dict
 import os
@@ -9,6 +9,7 @@ from telethon.sessions import StringSession
 
 from app.config import get_settings
 
+# Charge la configuration depuis l'environnement.
 settings = get_settings()
 
 
@@ -19,11 +20,13 @@ def _parse_sources_env() -> Dict[str, str | None]:
     Format attendu :
         SOURCES_TELEGRAM="channel1:label1,channel2:label2,channel3"
     """
+    # Extrait la variable SOURCES_TELEGRAM (si presente).
     raw = (settings.sources_telegram or "").strip()
 
     if not raw:
         return {}
 
+    # Dictionnaire canal -> label optionnel.
     mapping: Dict[str, str | None] = {}
 
     for part in raw.split(","):
@@ -61,6 +64,7 @@ async def fetch_raw_messages_24h() -> List[Dict]:
         print("[fetch] Aucun canal dans SOURCES_TELEGRAM.")
         return []
 
+    # Limite et fenetre temporelle.
     max_per_channel = settings.max_messages_per_channel
     cutoff = datetime.now(timezone.utc) - timedelta(hours=24)
 
@@ -92,9 +96,11 @@ async def fetch_raw_messages_24h() -> List[Dict]:
             settings.telegram_api_hash,
         )
 
+    # Accumule les messages collectes.
     results: List[Dict] = []
 
     async with client:
+        # Parcourt les canaux declares.
         for chan, orient in sources_map.items():
             try:
                 entity = await client.get_entity(chan)
@@ -122,6 +128,7 @@ async def fetch_raw_messages_24h() -> List[Dict]:
                 if not text.strip():
                     continue
 
+                # Source reelle si disponible.
                 real_source = getattr(entity, "title", None) or getattr(entity, "username", chan)
 
                 results.append(

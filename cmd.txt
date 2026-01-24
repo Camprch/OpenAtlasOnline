@@ -1,5 +1,0 @@
-source venv/bin/activate
-python tools/init_telegram.py
-python tools/run_pipeline.py
-python tools/build_static_site.py
-python -m http.server --directory site 8000

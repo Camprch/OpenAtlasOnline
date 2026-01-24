@@ -1,3 +1,4 @@
+/* Style du select de la timeline globale */
 #timeline-container-global select {
     padding: 6px 14px !important;
     background: #1a1f24 !important;
@@ -10,6 +11,8 @@
     transition: background 0.15s, border-color 0.15s, transform 0.1s, box-shadow 0.15s;
     min-width: 120px !important;
 }
+
+/* Etat hover du select global */
 #timeline-container-global select:hover {
     background: #222832 !important;
     border-color: #666 !important;
@@ -17,6 +20,7 @@
     box-shadow: 0 4px 10px rgba(0,0,0,0.5) !important;
 }
 
+/* Style du select de la timeline du panneau */
 #timeline-container-panel select {
     padding: 6px 14px !important;
     background: #1a1f24 !important;
@@ -29,14 +33,15 @@
     transition: background 0.15s, border-color 0.15s, transform 0.1s, box-shadow 0.15s;
     min-width: 120px !important;
 }
+/* Etat hover du select du panneau */
 #timeline-container-panel select:hover {
     background: #222832 !important;
     border-color: #666 !important;
     transform: translateY(-1px) !important;
     box-shadow: 0 4px 10px rgba(0,0,0,0.5) !important;
 }
-/* base.css : styles généraux, header, boutons, couleurs de fond, etc. */
 
+/* Couleurs de base et typographie */
 body {
     margin: 0;
     background: #000000;
@@ -44,6 +49,7 @@ body {
     font-family: Arial, sans-serif;
 }
 
+/* Mise en page du header */
 header {
     padding: 10px 20px;
     background: #11161c;
@@ -54,6 +60,7 @@ header {
     position: relative;
 }
 
+/* Style du titre */
 header h1 {
     margin: 0;
     font-size: 26px;
@@ -62,10 +69,12 @@ header h1 {
     gap: 10px;
 }
 
+/* Taille du logo/icone */
 .logo-icon {
     font-size: 24px;
 }
 
+/* Micro-interactions communes au hover */
 button,
 a,
 .leaflet-control a {
@@ -81,12 +90,14 @@ a:hover,
     filter: brightness(1.05);
 }
 
+/* Verrouille le scroll quand le panneau est ouvert */
 body.no-scroll {
     overflow: hidden !important;
     position: fixed;
     width: 100vw;
 }
 
+/* Bandeau d'alerte pour pays manquants/ignores */
 #dashboard-alert {
     background: #332200;
     color: #facc15;

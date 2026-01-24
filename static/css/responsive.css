@@ -1,22 +1,25 @@
-/* responsive.css : tous les media queries pour mobile/tablette */
-
+/* Ajustements mobile */
 @media (max-width: 768px) {
     html,
+    /* Texte legerement plus petit sur mobile */
     body {
         overflow-x: hidden;
     }
     body {
         font-size: 14px;
     }
+    /* Header plus compact */
     header {
         flex-direction: row;
         align-items: center;
         gap: 8px;
         padding: 8px 12px;
     }
+    /* Titre plus petit */
     header h1 {
         font-size: 20px;
     }
+    /* Ligne du select global */
     #timeline-container-global {
         width: auto;
         box-sizing: border-box;
@@ -26,6 +29,7 @@
         gap: 8px;
         position: static;
     }
+    /* Style du select global sur mobile */
     #timeline-container-global select {
         width: auto;
         min-width: 90px;
@@ -38,6 +42,7 @@
         border: 1px solid #374151;
         appearance: none;
     }
+    /* Ligne du select du panneau */
     #timeline-container-panel {
         width: auto;
         box-sizing: border-box;
@@ -48,6 +53,7 @@
         gap: 8px;
         position: static;
     }
+    /* Style du select du panneau sur mobile */
     #timeline-container-panel select {
         width: auto;
         min-width: 90px;
@@ -60,6 +66,7 @@
         border: 1px solid #374151;
         appearance: none;
     }
+    /* Panneau plein ecran sur mobile */
     #sidepanel {
         position: fixed;
         top: 0;
@@ -71,20 +78,25 @@
         box-sizing: border-box;
         transform: translateX(100%);
     }
+    /* Animation d'entree du panneau */
     #sidepanel.visible {
         transform: translateX(0);
     }
+    /* Hauteur de carte reduite pour le header */
     #map {
         height: calc(100vh - 110px);
     }
+    /* Decalage des controles */
     .leaflet-bottom.leaflet-right {
         right: 10px;
     }
+    /* Entete compacte */
     #sidepanel-header-row {
         flex-direction: row !important;
         align-items: center !important;
         gap: 12px;
     }
+    /* Supprime la fleche native du select */
     #timeline-container-panel select {
         appearance: none;
         -webkit-appearance: none;

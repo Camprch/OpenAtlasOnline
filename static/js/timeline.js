@@ -1,19 +1,19 @@
-// timeline.js
-// Gestion de la timeline et des sélecteurs de dates
-
-
+// Gestion de la timeline et des selecteurs de dates
 import { loadActiveCountries } from './countries.js';
 import { loadEvents } from './events.js';
 import { store } from './store.js';
 
+// Dates affichees dans la timeline.
 export let timelineDates = [];
 
+// Charge la timeline et configure les selecteurs.
 export async function loadTimeline() {
     const resp = await fetch("/static/data/generated/dates.json");
     const data = await resp.json();
     timelineDates = data.dates || [];
     const selectGlobal = document.getElementById("timeline-global");
     const selectPanel = document.getElementById("timeline-panel");
+    // Remplit un select avec les dates disponibles.
     function fillSelect(select, value) {
         select.innerHTML = "";
         const allOpt = document.createElement("option");
@@ -33,6 +33,7 @@ export async function loadTimeline() {
     if (selectGlobal) fillSelect(selectGlobal, store.currentGlobalDate);
     if (selectPanel) fillSelect(selectPanel, store.currentPanelDate);
     if (selectGlobal && selectPanel) {
+        // Synchronise les deux selecteurs.
         selectGlobal.addEventListener("change", () => {
             store.currentGlobalDate = selectGlobal.value;
             store.currentPanelDate = store.currentGlobalDate;

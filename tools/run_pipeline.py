@@ -1,5 +1,4 @@
-# tools/run_pipeline.py
-
+# Pipeline de collecte, déduplication, enrichissement, traduction.
 import asyncio
 from pathlib import Path
 from datetime import datetime, timedelta
@@ -7,6 +6,7 @@ import sys
 from dotenv import load_dotenv
 load_dotenv()
 
+# Ajoute la racine du projet au PATH Python.
 ROOT_DIR = Path(__file__).resolve().parent.parent
 if str(ROOT_DIR) not in sys.path:
     sys.path.insert(0, str(ROOT_DIR))
@@ -35,6 +35,7 @@ def store_messages(messages: list[dict]) -> None:
             batch = messages[i:i+batch_size]
             try:
                 for msg in batch:
+                    # Normalise l'event_timestamp si present.
                     event_timestamp = msg.get("date")
                     if event_timestamp is not None:
                         if isinstance(event_timestamp, str):
@@ -45,6 +46,7 @@ def store_messages(messages: list[dict]) -> None:
                         if isinstance(event_timestamp, datetime):
                             if event_timestamp.tzinfo is None:
                                 event_timestamp = event_timestamp.replace(tzinfo=timezone.utc)
+                    # Cree un enregistrement Message.
                     m = Message(
                         source=msg.get("source") or "unknown",
                         channel=msg.get("channel"),
@@ -59,6 +61,7 @@ def store_messages(messages: list[dict]) -> None:
                         orientation=msg.get("orientation"),
                     )
                     session.add(m)
+                # Force l'envoi en base pour le batch.
                 session.flush()  # force l'envoi à la base, mais pas de commit global
                 session.commit()
                 total += len(batch)
@@ -76,6 +79,7 @@ def filter_existing_messages(messages: list[dict]) -> list[dict]:
     """
     if not messages:
         return []
+    # Construit la liste des paires (channel, id).
     keys = [(m.get("channel"), m.get("telegram_message_id")) for m in messages]
     channels = set(k[0] for k in keys if k[0] is not None)
     ids = set(k[1] for k in keys if k[1] is not None)
@@ -87,6 +91,7 @@ def filter_existing_messages(messages: list[dict]) -> list[dict]:
             Message.telegram_message_id.in_(ids)
         )
         existing = set((row[0], row[1]) for row in session.exec(stmt).all())
+    # Garde uniquement les messages non presents.
     filtered = [m for m in messages if (m.get("channel"), m.get("telegram_message_id")) not in existing]
     # Log supprimé : nombre de messages déjà en base ignorés
     return filtered
@@ -110,6 +115,7 @@ def delete_old_messages(days: int = 7) -> None:
 
 
 async def run_pipeline_once():
+    # Initialise la base et execute la pipeline complete.
     init_db()
 
     raw_messages = await fetch_raw_messages_24h()
@@ -121,6 +127,7 @@ async def run_pipeline_once():
     if not raw_messages:
         return
 
+    # Traduction, enrichissement, dedup, puis stockage.
     translate_messages(raw_messages)
     enrich_messages(raw_messages)
     deduped = dedupe_messages(raw_messages)

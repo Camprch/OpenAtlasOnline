@@ -1,9 +1,11 @@
+/* Ajuste la hauteur de l'entete d'evenements dans le panneau */
 #sidepanel-events-header {
     min-height: 48px;
     overflow: visible;
     align-items: center;
 }
-/* Désactive le scroll du body quand le panneau latéral est ouvert sur mobile */
+
+/* Note : ces @import sont dans une regle (fichier existant) */
 body.no-scroll {
     @import url("./base.css");
     @import url("./map.css");

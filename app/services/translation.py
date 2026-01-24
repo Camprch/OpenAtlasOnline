@@ -1,9 +1,10 @@
-# app/services/translation.py
+# Traduction des messages collecte.
 from typing import List
 from openai import OpenAI
 
 from app.config import get_settings
 
+# Configuration OpenAI.
 settings = get_settings()
 client = OpenAI(api_key=settings.openai_api_key)
 MODEL_NAME = settings.openai_model
@@ -19,6 +20,7 @@ def _translate_subbatch(texts: List[str]) -> List[str]:
     if not texts:
         return []
 
+    # Prompt de traduction (JSONL strict).
     header = (
         "Tu es un traducteur professionnel.\n"
         "Je vais te donner une liste de messages numérotés.\n"
@@ -36,6 +38,7 @@ def _translate_subbatch(texts: List[str]) -> List[str]:
         body_lines.append(f"[{i}] {txt}")
     prompt = header + "\n".join(body_lines)
 
+    # Appel au modele OpenAI.
     resp = client.responses.create(
         model=MODEL_NAME,
         input=prompt,
@@ -88,9 +91,11 @@ def translate_messages(messages: List[dict]) -> List[dict]:
         sub = messages[start:end]
         texts = [m.get("text", "") for m in sub]
 
+        # Traduit le batch courant.
         translations = _translate_subbatch(texts)
 
         for msg, trans in zip(sub, translations):
+            # Ajoute la traduction au message.
             msg["translated_text"] = trans
 
     return messages

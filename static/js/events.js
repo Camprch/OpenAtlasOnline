@@ -1,9 +1,9 @@
-// events.js
-// Rendu et chargement des événements, gestion du panneau latéral
+// Rendu et chargement des evenements, gestion du panneau lateral
 
 import { IS_MOBILE } from './map.js';
 import { store } from './store.js';
 
+// Rend la liste des evenements dans le panneau.
 export function renderEvents(data) {
     const eventsContainer = document.getElementById("events");
     if (!data || !data.zones || data.zones.length === 0) {
@@ -50,6 +50,7 @@ export function renderEvents(data) {
         `;
         })
         .join("");
+    // Injecte le HTML complet.
     eventsContainer.innerHTML = html;
     data.zones.forEach((zone, idx) => {
         const headerEl = document.querySelector(
@@ -85,6 +86,7 @@ export function renderEvents(data) {
 }
 
 
+// Ouvre le panneau lateral et charge les evenements du pays.
 export async function openSidePanel(normCountry) {
     store.currentCountry = normCountry;
     document.getElementById("panel-country-text").textContent = normCountry;
@@ -102,18 +104,21 @@ export async function openSidePanel(normCountry) {
 }
 
 
+// Fermeture du panneau via la croix.
 document.getElementById("close-panel").addEventListener("click", () => {
     document.getElementById("sidepanel").classList.remove("visible");
     if (IS_MOBILE) {
         document.body.classList.remove("no-scroll");
     }
 });
+// Fermeture via le backdrop (desktop uniquement).
 document.getElementById("sidepanel-backdrop").addEventListener("click", () => {
     if (!IS_MOBILE) {
         document.getElementById("sidepanel").classList.remove("visible");
     }
 });
 
+// Charge la vue ALL la plus recente pour un pays.
 export async function loadLatestEvents(country) {
     const eventsContainer = document.getElementById("events");
     eventsContainer.innerHTML = "Chargement...";
@@ -143,6 +148,7 @@ export async function loadLatestEvents(country) {
     renderEvents(data);
 }
 
+// Charge les evenements pour un pays et une date.
 export async function loadEvents(country) {
     const eventsContainer = document.getElementById("events");
     if (!store.currentPanelDate) {

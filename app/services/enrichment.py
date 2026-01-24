@@ -1,19 +1,22 @@
-# app/services/enrichment.py
+# Enrichissement des messages.
 from typing import List, Dict, Any, Optional
 import json
 
 from openai import OpenAI
 from app.config import get_settings
 
+# Configuration OpenAI.
 settings = get_settings()
 client = OpenAI(api_key=settings.openai_api_key)
 MODEL_NAME = settings.openai_model
 BATCH_SIZE = settings.batch_size
 
+# Champs attendus dans la sortie JSONL.
 EXPECTED_FIELDS = ["country", "region", "location", "title", "source", "timestamp"]
 
 
 def _empty_enrichment() -> Dict[str, Optional[str]]:
+    # Structure vide avec tous les champs.
     return {
         "country": None,
         "region": None,
@@ -32,6 +35,7 @@ def _enrich_subbatch(items: List[Dict[str, Any]]) -> List[Dict[str, Optional[str
     if not items:
         return []
 
+    # Prompt d'extraction d'information (JSONL strict).
     header = (
         "Tu es un système d'extraction d'information OSINT.\n"
         "Pour chaque message ci-dessous, produis UNE LIGNE JSON (format JSONL) :\n"
@@ -53,6 +57,7 @@ def _enrich_subbatch(items: List[Dict[str, Any]]) -> List[Dict[str, Optional[str
     body = "\n".join(f"[{it['id']}] {it.get('text','')}" for it in items)
     prompt = header + body
 
+    # Appel au modele OpenAI.
     resp = client.responses.create(
         model=MODEL_NAME,
         input=prompt,
@@ -63,6 +68,7 @@ def _enrich_subbatch(items: List[Dict[str, Any]]) -> List[Dict[str, Optional[str
     except AttributeError:
         raw = str(resp)
 
+    # Parse des lignes JSONL.
     lines = [l.strip() for l in raw.splitlines() if l.strip()]
 
     id_to_index = {int(it["id"]): idx for idx, it in enumerate(items)}
@@ -83,6 +89,7 @@ def _enrich_subbatch(items: List[Dict[str, Any]]) -> List[Dict[str, Optional[str
         if obj_id not in id_to_index or obj_id in seen_ids:
             continue
 
+        # Filtre / normalise les champs attendus.
         filtered: Dict[str, Optional[str]] = {}
         for k in EXPECTED_FIELDS:
             v = obj.get(k, "")
@@ -111,6 +118,7 @@ def enrich_messages(messages: List[dict]) -> List[dict]:
         end = min(start + BATCH_SIZE, total)
         sub = messages[start:end]
 
+        # Prepare le batch avec un id local par message.
         items = [
             {"id": i, "text": (m.get("translated_text") or m.get("text") or "")}
             for i, m in enumerate(sub)
@@ -120,6 +128,7 @@ def enrich_messages(messages: List[dict]) -> List[dict]:
 
         for msg, enr in zip(sub, enrichments):
             if enr:
+                # Ecrit l'enrichissement dans le message.
                 msg["country"] = enr.get("country") or None
                 msg["region"] = enr.get("region") or None
                 msg["location"] = enr.get("location") or None
