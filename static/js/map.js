@@ -15,7 +15,7 @@ export function initMap() {
         minZoom: 2,
         maxZoom: 8,
         tapTolerance: 30,
-    }).setView([20, 0], 2);
+    }).setView([20, 0], IS_MOBILE ? 2 : 3);
 
     L.tileLayer(
         "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png",
@@ -37,8 +37,8 @@ export function clearMarkers() {
 // Calcule la taille/couleur d'un marqueur selon le volume d'evenements.
 export function markerStyle(count) {
     const n = Math.max(1, count || 1);
-    const minRadius = IS_MOBILE ? 8 : 4;
-    const maxRadius = IS_MOBILE ? 13 : 7;
+    const minRadius = IS_MOBILE ? 8 : 7;
+    const maxRadius = IS_MOBILE ? 13 : 12;
     const maxCount = 30;
     const ratio = Math.min(n / maxCount, 1);
     const radius = minRadius + (maxRadius - minRadius) * ratio;
