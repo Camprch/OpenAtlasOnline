@@ -3,8 +3,12 @@
 Pipeline OSINT qui collecte des événements depuis des canaux Telegram, les traduit, les enrichit (géolocalisation / métadonnées), puis génère un site statique avec JSON pour l’affichage sur un planisphère interactif.
 Le pipeline tourne via GitHub Actions (secrets via GitHub Secrets) et le site est déployé sur Netlify.
 
-![carte principale](static/img/screen1.png)
-![panneau latéral](static/img/screen2.png)
+<div style="display:flex; gap:12px; align-items:flex-start;">
+    <img src="static/img/map.jpg" alt="carte principale"
+  width="320" />
+    <img src="static/img/panneau.jpg" alt="panneau latéral"
+  width="320" />
+</div>
 
 ---
 
