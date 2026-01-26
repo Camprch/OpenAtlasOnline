@@ -6,6 +6,7 @@
     "🇦🇱 Albanie": [41.153332, 20.168331],
     "🇩🇿 Algérie": [28.033886, 1.659626],
     "🇩🇪 Allemagne": [51.165691, 10.451526],
+    "🌎 Amérique latine": [-8.7832, -55.4915],
     "🇦🇩 Andorre": [42.546245, 1.601554],
     "🇦🇴 Angola": [-11.202692, 17.873887],
     "🇦🇬 Antigua-et-Barbuda": [17.060816, -61.796428],
@@ -262,6 +263,8 @@
     "allemagne": "🇩🇪 Allemagne",
     "germany": "🇩🇪 Allemagne",
     "deutschland": "🇩🇪 Allemagne",
+
+    "amérique latine": "🌎 Amérique latine",
 
     "andorre": "🇦🇩 Andorre",
     "andorra": "🇦🇩 Andorre",
